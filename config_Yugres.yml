@@ -1,0 +1,33 @@
+
+MEAN_NAN: True # Строки со значением Nan заменяются стредними значениями столбца
+DROP_NAN: False # Строки со значением Nan удаляются
+
+ROLLING_MEAN: False
+EXP_SMOOTH: False
+DOUBLE_EXP_SMOOTH: False
+ROLLING_MEAN_WINDOW: 32
+
+ROLLING_MEAN_LOSS: 72
+COUNT_ANOMALY: 864
+ANOMALY_TRESHOLD: 0.999
+
+AUTO_DROP_LIST: True
+DROP_LIST: ['20MBY00CS901_XQ01','20MBL11CT010_XQ01','20MBL11CM001_XQ01','20MBA11CP101_XQ01'] #удаление датчиков из отчета CSV
+PLOT_FEATURES: ['20MBP22DG151_XQ01','20MBP23DG151_XQ01','20MBN53DG151_XQ01','20MBY10CE901_XQ01','20MBA26CT101B_XQ01']
+
+POWER_ID: '20MBY10CE901_XQ01'
+POWER_LIMIT: 190
+KKS: '/home/art/InControl/data/YUGRES/kks.csv' #Файл с группами
+NUM_GROUPS: 10 #Количество групп
+LAG: 10 #Значение лага обучения
+DIR_EXP: 'YUGRES' # Название директории в котрый сохраняются отчеты и веса(все хранится в корневой папке Reports)
+
+#Параметры train
+TRAIN_FILE: '/home/art/InControl/data/YUGRES/YUGRES_train_new.sqlite' #Путь к файлу с трейн данными
+# TRAIN_FILE: '/home/art/InControl/data/YUGRES/YUGRES_all.sqlite' #Путь к файлу с трейн данными
+EPOCHS: 500 
+BATCH_SIZE: 1024
+
+#Параметры test
+TEST_FILE: '/home/art/InControl/data/YUGRES/YUGRES_all.sqlite'
+# '/home/art/InControl/data/YUGRES/YUGRES_all.sqlite'

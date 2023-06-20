@@ -1,0 +1,28 @@
+MEAN_NAN: False # Строки со значением Nan заменяются стредними значениями столбца
+DROP_NAN: True # Строки со значением Nan удаляются
+
+ROLLING_MEAN: False
+EXP_SMOOTH: False
+DOUBLE_EXP_SMOOTH: False
+ROLLING_MEAN_WINDOW: 32
+
+ROLLING_MEAN_LOSS: 72
+COUNT_ANOMALY: 150
+ANOMALY_TRESHOLD: 0.99
+AUTO_DROP_LIST: True
+DROP_LIST: []
+PLOT_FEATURES: ['03SP10E901_XQ01','03SP10E001_XQ01','03SP10E901_XQ01','03SP10E901_XQ01','03SP10E901_XQ01'] 
+POWER_ID: '03SP10E901_XQ01'
+POWER_LIMIT: 300
+KKS: '/home/art/InControl/data/Perm Gen/kks_perm.csv' #Файл с группами
+NUM_GROUPS: 12 #Количество групп
+LAG: 1 #Значение лага обучения
+DIR_EXP: 'PERMGEN ' # Название директории в котрый сохраняются отчеты и веса(все хранится в корневой папке Reports)
+
+ #Параметры train
+TRAIN_FILE: '/home/art/InControl/data/Perm Gen/Perm_gen_train.sqlite' #Путь к файлу с трейн данными
+EPOCHS: 500 
+BATCH_SIZE: 1024
+
+# Параметры test
+TEST_FILE: '/home/art/InControl/data/Perm Gen/Perm_gen_all.sqlite' #Путь к файлу с данными для теста

@@ -1,0 +1,28 @@
+MEAN_NAN: False # Строки со значением Nan заменяются стредними значениями столбца
+DROP_NAN: True # Строки со значением Nan удаляются
+
+ROLLING_MEAN: False
+EXP_SMOOTH: False
+DOUBLE_EXP_SMOOTH: False
+ROLLING_MEAN_WINDOW: 32
+
+ROLLING_MEAN_LOSS: 72
+COUNT_ANOMALY: 864
+ANOMALY_TRESHOLD: 0.9
+AUTO_DROP_LIST: True
+DROP_LIST: []
+
+POWER_ID: '20MKA01CE903'
+POWER_LIMIT: 110
+KKS: '/home/art/InControl/data/HAGRES kotel/kks.csv' #Файл с группами
+NUM_GROUPS: 12 #Количество групп
+LAG: 1 #Значение лага обучения
+DIR_EXP: 'HargesKotel ' # Название директории в котрый сохраняются отчеты и веса(все хранится в корневой папке Reports)
+
+ #Параметры train
+TRAIN_FILE: '/home/art/InControl/data/HAGRES kotel/Hagres_kotel_train.sqlite' #Путь к файлу с трейн данными
+EPOCHS: 500 
+BATCH_SIZE: 1024
+
+# Параметры test
+TEST_FILE: '/home/art/InControl/data/HAGRES kotel/Hagres_kotel_all.sqlite' #Путь к файлу с данными для теста

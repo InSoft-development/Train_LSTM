@@ -1,0 +1,30 @@
+
+MEAN_NAN: False # Строки со значением Nan заменяются стредними значениями столбца
+DROP_NAN: True # Строки со значением Nan удаляются
+
+ROLLING_MEAN: False
+EXP_SMOOTH: False
+DOUBLE_EXP_SMOOTH: False
+ROLLING_MEAN_WINDOW: 32
+
+ROLLING_MEAN_LOSS: 32
+COUNT_ANOMALY: 200
+ANOMALY_TRESHOLD: 0.9
+
+DROP_LIST: [] 
+AUTO_DROP_LIST: False
+PLOT_FEATURES: [22MKA01CE911_XQ01,22MKA01CE003_XQ01,20MAD11CS001_XQ01,20MAD11CS002_XQ01,20SAM01CP001_XQ01]
+POWER_ID: '22MKA01CE911_XQ01'
+POWER_LIMIT: 70
+KKS: '/home/art/InControl/data/SZTC/kks_sztc.csv' #Файл с группами
+NUM_GROUPS: 12 #Количество групп
+LAG: 1 #Значение лага обучения
+DIR_EXP: 'SZTC ' # Название директории в котрый сохраняются отчеты и веса(все хранится в корневой папке Reports)
+
+#Параметры train
+TRAIN_FILE: '/home/art/InControl/data/SZTC/SZTEC_train.sqlite' #Путь к файлу с трейн данными
+EPOCHS: 1
+BATCH_SIZE: 1000
+
+# #Параметры test
+TEST_FILE: '/home/art/InControl/data/SZTC/SZTEC_all.sqlite' #Путь к файлу с данными для теста
