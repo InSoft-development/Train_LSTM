@@ -1,10 +1,6 @@
-# import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
-import sqlite3
 import os
-import sys
-import numpy as np
 import pandas as pd
 import argparse
 import shutil
@@ -40,11 +36,11 @@ ROLLING_MEAN = config['ROLLING_MEAN']
 EXP_SMOOTH = config['EXP_SMOOTH']
 DOUBLE_EXP_SMOOTH = config['DOUBLE_EXP_SMOOTH']
 
-KKS = config['KKS']
+KKS = f"{parent_dir}/{config['KKS']}"
 NUM_GROUPS = config['NUM_GROUPS']
 LAG = config['LAG']
-DIR_EXP = config['DIR_EXP'] + str(LAG)
-REPORTS_DIR = f'/home/art/InControl/Reports/{DIR_EXP}/'
+DIR_EXP = config['DIR_EXP']
+# REPORTS_DIR = f'/home/art/InControl/Reports/{DIR_EXP}/'
 
 EPOCHS = config['EPOCHS']
 BATCH_SIZE = config['BATCH_SIZE']
@@ -52,26 +48,17 @@ POWER_ID = config['POWER_ID']
 POWER_LIMIT = config['POWER_LIMIT']
 ROLLING_MEAN_WINDOW = config['ROLLING_MEAN_WINDOW']
 USE_ALL_DATA = config['USE_ALL_DATA']
-CSV = True
-SQL = False
-
-if USE_ALL_DATA:
-    TRAIN_FILE = '/home/art/Downloads/slices(3).csv'
-else:
-    TRAIN_FILE = f'{REPORTS_DIR}/clear_data/all_data.csv'
-
 
 # Чтение и загрузка данных
-if CSV:
-    df = pd.read_csv(TRAIN_FILE)
-    # df = df.drop(columns=['timestamp','one_svm_value', 'check_index'])
+if USE_ALL_DATA:
+    TRAIN_FILE = f"{parent_dir}/{config['TRAIN_FILE']}"
+    df = pd.read_csv(TRAIN_FILE, sep=',')
     df = df.drop(columns='timestamp')
-
-if SQL:
-    cnx = sqlite3.connect(TRAIN_FILE)
-    df = pd.read_sql_query("SELECT * FROM 'data_train'", cnx)
-    df = df.drop(columns=['timestamp', 'index'])
- 
+else:
+    TRAIN_FILE = f'{parent_dir}/Reports/{DIR_EXP}/clear_data/clear_data.csv'
+    df = pd.read_csv(TRAIN_FILE)
+    df = df.drop(columns=['timestamp','one_svm_value', 'check_index'])
+    
 # Иницализация GPU
 physical_devices = tf.config.list_physical_devices('GPU')
 for device in physical_devices:
@@ -125,12 +112,13 @@ except Exception as e:
 # разбиение данных по группам, скейлинг и сохранение скейлеров 
 group_list = []
 sum = 0
+groups['group'] = groups['group'].astype(int)
+logger.debug(f"KKS: \n {groups.dtypes}")
 for i in range(0, NUM_GROUPS):
     group = groups[groups['group'] == i]
     logger.debug(group)
     if i != 0:
         group = group.append(groups[groups['group'] == 0])
-        print(group)
     sum += len(group)
     if len(group) == 0:
         continue
