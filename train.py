@@ -1,4 +1,4 @@
-import seaborn as sns
+# import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
 import sqlite3
@@ -10,7 +10,7 @@ import shutil
 import tensorflow as tf
 from keras.optimizers import adam
 
-from utils.data import get_scaled, load_config, save_scaler
+from utils.data import get_scaled, load_config, save_scaler, kalman_filter
 from utils.smooth import exponential_smoothing, double_exponential_smoothing
 from model import autoencoder_model
 
@@ -46,11 +46,14 @@ POWER_LIMIT = config['POWER_LIMIT']
 ROLLING_MEAN_WINDOW = config['ROLLING_MEAN_WINDOW']
 CSV = True
 SQL = False
-TRAIN_FILE = f'{REPORTS_DIR}/clear_data/clear_data.csv'
+TRAIN_FILE = f'{REPORTS_DIR}/clear_data/all_data.csv'
+# TRAIN_FILE = '/home/art/Downloads/slices(3).csv'
+
 
 if CSV:
     df = pd.read_csv(TRAIN_FILE)
-    df = df.drop(columns=['timestamp','one_svm_value', 'check_index'])
+    # df = df.drop(columns=['timestamp','one_svm_value', 'check_index'])
+    df = df.drop(columns='timestamp')
 
 if SQL:
     cnx = sqlite3.connect(TRAIN_FILE)
@@ -67,6 +70,11 @@ if MEAN_NAN:
     df = df.fillna(df.mean(), inplace=True)
 if DROP_NAN:
     df = df.dropna()
+
+KALMAN = False
+if KALMAN:
+    df = kalman_filter(df)
+
 if ROLLING_MEAN:
     rolling_mean = df.rolling(window=ROLLING_MEAN_WINDOW).mean()
 if EXP_SMOOTH:
@@ -85,9 +93,6 @@ group_list = []
 
 sum = 0
 for i in range(0, NUM_GROUPS):
-    
-    
-    
     group = groups[groups['group'] == i]
     
     if i != 0:
