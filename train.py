@@ -4,13 +4,14 @@ import os
 import pandas as pd
 import argparse
 import shutil
+import json
 import tensorflow as tf
 from keras.optimizers import adam
 from loguru import logger
 
 from utils.data import get_scaled, load_config, save_scaler, kalman_filter
 from utils.smooth import exponential_smoothing, double_exponential_smoothing
-from model import autoencoder_model
+from model import get_autoencoder_model
 
 # Поиск "верхней" директории
 current_dir = os.path.dirname(__file__)
@@ -28,6 +29,7 @@ parser.add_argument('--station', type=str, default='')
 parser.add_argument('--dir', type=str, default='')
 opt = parser.parse_args()
 config = load_config(f'{opt.dir}/config/{opt.station}.yml')
+model_config = load_config(f'{opt.dir}/config/settings/model.yml')
 
 MEAN_NAN = config['MEAN_NAN']
 DROP_NAN = config['DROP_NAN']
@@ -134,7 +136,7 @@ for i in range(0, len(group_list)):
     len_size = get_len_size(LAG, X_train.shape[0])
     X_train = X_train[:len_size].reshape(int(X_train.shape[0] / LAG), int(LAG), X_train.shape[1])
     print("Training data shape:", X_train.shape)
-    model = autoencoder_model(X_train)
+    model = get_autoencoder_model(X_train, architecture=model_config['architecture'])
     model.compile(optimizer='adam', loss='mae')
     earlyStopping = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=20, verbose=0, mode='min')
     mcp_save = tf.keras.callbacks.ModelCheckpoint(model_save, save_best_only=True, monitor='val_loss', mode='min')

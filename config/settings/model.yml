@@ -1,0 +1,2 @@
+architecture: "conv_autoencoder"
+# Можно выбрать из: simple_autoencoder bidirectional_lstm conv_autoencoder,transformer_autoencoder
