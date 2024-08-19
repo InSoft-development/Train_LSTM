@@ -23,7 +23,7 @@ opt = parser.parse_args()
 config = load_config(f'{opt.dir}/config/{opt.station}.yml')
 LAG = config['LAG']
 # REPORTS_DIR = f'/home/art/InControl/Reports/{DIR_EXP}/'
-DIR_EXP = config['DIR_EXP'] + str(LAG)
+DIR_EXP = config['DIR_EXP']
 REPORTS_DIR = f'{parent_dir}/Reports/{DIR_EXP}/'
 
 POWER_ID = config['POWER_ID']
