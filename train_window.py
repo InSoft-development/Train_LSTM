@@ -5,6 +5,7 @@ import numpy as np
 import argparse
 import shutil
 import json
+import clickhouse_driver
 import tensorflow as tf
 from keras.optimizers import adam
 from loguru import logger

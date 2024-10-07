@@ -1,3 +1,4 @@
 architecture: "simple_autoencoder"
+
 # Можно выбрать из: simple_autoencoder bidirectional_lstm conv_autoencoder,transformer_autoencoder
  # в папке model.py можно менять параметры
