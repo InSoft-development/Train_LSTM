@@ -130,7 +130,7 @@ for i in range(0, NUM_GROUPS):
 # Цикл обучения, c сохранением весов и информации о модели
 for i in range(0, len(group_list)):
     logger.info(f"Group {i}")
-    model_save = f'{parent_dir}/Reports/{DIR_EXP}/model_pt/lstm_group_{i}.h5'
+    model_save = f'{parent_dir}/Reports/{DIR_EXP}/model_pt/lstm_group_{i}.keras'
     X_train = group_list[i].to_numpy()
     len_size = get_len_size(LAG, X_train.shape[0])
     X_train = X_train[:len_size].reshape(int(X_train.shape[0] / LAG), int(LAG), X_train.shape[1])
@@ -138,12 +138,7 @@ for i in range(0, len(group_list)):
     model = get_autoencoder_model(X_train, architecture=model_config['architecture'])
     model.compile(optimizer='adam', loss='mae')
     earlyStopping = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=20, verbose=0, mode='min')
-    mcp_save = tf.keras.callbacks.ModelCheckpoint(
-        filepath='/home/art/testsuite/Reports/sochi/model_pt/lstm_group_0.keras', 
-        save_best_only=True, 
-        monitor='val_loss', 
-        mode='min'
-    )
+    mcp_save = tf.keras.callbacks.ModelCheckpoint(model_save, save_best_only=True, monitor='val_loss', mode='min')
     reduce_lr_loss = tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=7, verbose=1,
                                                           min_delta=1e-4, mode='min')
     history = model.fit(X_train, X_train, epochs=EPOCHS, batch_size=BATCH_SIZE,

@@ -145,7 +145,7 @@ for i in range(0, NUM_GROUPS):
 # Цикл обучения, c сохранением весов и информации о модели
 for i in range(0, len(group_list)):
     logger.info(f"Group {i}")
-    model_save = f'{parent_dir}/Reports/{DIR_EXP}/model_pt/lstm_group_{i}.h5'
+    model_save = f'{parent_dir}/Reports/{DIR_EXP}/model_pt/lstm_group_{i}.keras'
     X_train = group_list[i].to_numpy()
     # len_size = get_len_size(LAG, X_train.shape[0])
     X_train = create_windows(X_train,10,1)
