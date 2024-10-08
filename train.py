@@ -6,7 +6,6 @@ import argparse
 import shutil
 import json
 import tensorflow as tf
-from keras.optimizers import adam
 from loguru import logger
 
 from utils.data import get_scaled, load_config, save_scaler, kalman_filter
@@ -120,7 +119,7 @@ for i in range(0, NUM_GROUPS):
     group = groups[groups['group'] == i]
     logger.debug(group)
     if i != 0:
-        group = group.append(groups[groups['group'] == 0])
+        group = pd.concat([group, groups[groups['group'] == 0]])
     sum += len(group)
     if len(group) == 0:
         continue
@@ -139,7 +138,12 @@ for i in range(0, len(group_list)):
     model = get_autoencoder_model(X_train, architecture=model_config['architecture'])
     model.compile(optimizer='adam', loss='mae')
     earlyStopping = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=20, verbose=0, mode='min')
-    mcp_save = tf.keras.callbacks.ModelCheckpoint(model_save, save_best_only=True, monitor='val_loss', mode='min')
+    mcp_save = tf.keras.callbacks.ModelCheckpoint(
+        filepath='/home/art/testsuite/Reports/sochi/model_pt/lstm_group_0.keras', 
+        save_best_only=True, 
+        monitor='val_loss', 
+        mode='min'
+    )
     reduce_lr_loss = tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=7, verbose=1,
                                                           min_delta=1e-4, mode='min')
     history = model.fit(X_train, X_train, epochs=EPOCHS, batch_size=BATCH_SIZE,

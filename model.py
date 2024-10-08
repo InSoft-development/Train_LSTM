@@ -1,6 +1,6 @@
-from tensorflow.keras.layers import Input, Dropout, Dense, LSTM, TimeDistributed, RepeatVector, BatchNormalization, Bidirectional, Conv1D, MaxPooling1D, UpSampling1D
-from tensorflow.keras.models import Model
-from tensorflow.keras import regularizers
+from keras.layers import Input, Dropout, Dense, LSTM, TimeDistributed, RepeatVector, BatchNormalization, Bidirectional, Conv1D, MaxPooling1D, UpSampling1D
+from keras.models import Model
+from keras import regularizers
 import tensorflow as tf
 import numpy as np
 

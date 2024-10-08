@@ -7,7 +7,6 @@ import shutil
 import json
 import clickhouse_driver
 import tensorflow as tf
-from keras.optimizers import adam
 from loguru import logger
 
 from utils.data import get_scaled, load_config, save_scaler, kalman_filter
@@ -135,7 +134,7 @@ for i in range(0, NUM_GROUPS):
     group = groups[groups['group'] == i]
     logger.debug(group)
     if i != 0:
-        group = group.append(groups[groups['group'] == 0])
+        group = pd.concat([group, groups[groups['group'] == 0]])
     sum += len(group)
     if len(group) == 0:
         continue
