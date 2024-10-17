@@ -61,7 +61,8 @@ def save_scaler(data_features, save_path):
         data=scaler.fit_transform(data_features), 
         columns=data_features.columns
     )
-    joblib.dump(scaler, save_path) 
+    joblib.dump(scaler, save_path)
+
 
     
       

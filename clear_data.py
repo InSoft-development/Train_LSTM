@@ -8,7 +8,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.svm import OneClassSVM
 from loguru import logger
 
-from utils.data import load_config
+from Train_LSTM.utils.data import load_config
 
 # Поиск "верхней" директории
 current_dir = os.path.dirname(__file__)
